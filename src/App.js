@@ -2,18 +2,18 @@ import React, { useState, useEffect, useRef } from "react";
 import "./App.css";
 
 function App() {
-  const [elemets, setElements] = useState(2);
-  const [layout, setLayout] = useState([2, 2]);
+  const [elemets, setElements] = useState(1);
+  const [layout, setLayout] = useState([0, 0]);
   const container = useRef();
 
-  const reactChangeElemets = useEffect(() => {
+  useEffect(() => {
     const a = Math.floor(Math.sqrt(elemets - 1)) + 1;
     const b = Math.ceil(elemets / a);
     console.log(elemets, "!", a, b);
     setLayout([a, b]);
   }, [elemets]);
 
-  const reactChangeLayout = useEffect(() => {
+  useEffect(() => {
     const [a, b] = layout;
     const ar = Array(a).fill("auto");
     const br = Array(b).fill("auto");
@@ -28,7 +28,7 @@ function App() {
     setElements((prev) => prev + 1);
   };
   const remElement = () => {
-    setElements((prev) => Math.max(prev - 1, 0));
+    setElements((prev) => Math.max(prev - 1, 1));
   };
 
   return (
