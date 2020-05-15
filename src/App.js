@@ -1,24 +1,59 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect, useRef } from "react";
+import "./App.css";
 
 function App() {
+  const [elemets, setElements] = useState(2);
+  const [layout, setLayout] = useState([2, 2]);
+  const container = useRef();
+
+  const reactChangeElemets = useEffect(() => {
+    const a = Math.floor(Math.sqrt(elemets - 1)) + 1;
+    const b = Math.ceil(elemets / a);
+    console.log(elemets, "!", a, b);
+    setLayout([a, b]);
+  }, [elemets]);
+
+  const reactChangeLayout = useEffect(() => {
+    const [a, b] = layout;
+    const ar = Array(a).fill("auto");
+    const br = Array(b).fill("auto");
+    const al = ar.join(" ");
+    const bl = br.join(" ");
+
+    container.current.style.gridTemplateColumns = al;
+    container.current.style.gridTemplateRows = bl;
+  }, [layout]);
+
+  const addElement = () => {
+    setElements((prev) => prev + 1);
+  };
+  const remElement = () => {
+    setElements((prev) => Math.max(prev - 1, 0));
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="wrapper">
+        <div>
+          <h3>Why not</h3>
+          <h3>Why not</h3>
+          <h3>Why not</h3>
+          <h3>Why not</h3>
+          <h3>Why not</h3>
+          <h3>Why not</h3>
+          <h3>Why not</h3>
+          <h3>Why not</h3>
+          <button onClick={addElement}>+</button>
+          <button onClick={remElement}>-</button>
+        </div>
+        <div className="container" ref={container}>
+          {[...Array(elemets).keys()].map((number) => (
+            <div className="element" key={number}>
+              {/* Element {number + 1} */}
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
